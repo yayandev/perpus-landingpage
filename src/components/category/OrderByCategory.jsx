@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useSWR from "swr";
 import fetcher from "../../utils/swr/fetcher.js";
 import SkeletonBook from "../../components/home/SkeletonBook.jsx";
@@ -48,10 +48,10 @@ const OrderByCategory = () => {
                 <div className="mt-4 flex justify-between">
                   <div>
                     <h3 className="text-sm text-gray-700">
-                      <a href={`/buku/${item.slug}`}>
+                      <Link to={`/buku/${item.slug}`}>
                         <span aria-hidden="true" className="absolute inset-0" />
                         {item.title}
-                      </a>
+                      </Link>
                     </h3>
                     <p className="mt-1 text-sm text-gray-500">{category}</p>
                   </div>

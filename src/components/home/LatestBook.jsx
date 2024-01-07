@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useSWR from "swr";
 import fetcher from "../../utils/swr/fetcher.js";
 import SkeletonBook from "./SkeletonBook.jsx";
+import { Link } from "react-router-dom";
 export default function LatestBook() {
   const [page, setPage] = useState(1);
   const [books, setBooks] = useState([]);
@@ -48,10 +49,10 @@ export default function LatestBook() {
               <div className="mt-4 flex justify-between">
                 <div>
                   <h3 className="text-sm text-gray-700">
-                    <a href={`buku/${item.slug}`}>
+                    <Link to={`buku/${item.slug}`}>
                       <span aria-hidden="true" className="absolute inset-0" />
                       {item.title}
-                    </a>
+                    </Link>
                   </h3>
                   <p className="mt-1 text-sm text-gray-500">
                     {item.kategori.name}
