@@ -1,15 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 import fetcher from "../../utils/swr/fetcher.js";
 import SkeletonBook from "./SkeletonBook.jsx";
 export default function LatestBook() {
-  const { data, isLoading, error } = useSWR(
-    "https://dashboard.perpus.upg.ac.id/api/buku",
+  const [page, setPage] = useState(1);
+  const [books, setBooks] = useState([]);
+  const { data, isLoading, error, mutate } = useSWR(
+    "https://dashboard.perpus.upg.ac.id/api/buku?page=" + page,
     fetcher,
     {
       revalidateOnFocus: false,
     }
   );
+
+  const handleLoadMore = () => {
+    setPage((prev) => prev + 1);
+    mutate();
+  };
+
+  useEffect(() => {
+    if (data) {
+      setBooks([...books, ...data.data]);
+    }
+  }, [data]);
 
   if (isLoading) return <SkeletonBook />;
 
@@ -23,7 +36,7 @@ export default function LatestBook() {
         </h2>
 
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {data?.data.map((item) => (
+          {books?.map((item) => (
             <div key={item.id} className="group relative">
               <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                 <img
@@ -49,11 +62,16 @@ export default function LatestBook() {
             </div>
           ))}
         </div>
-        <div className="my-5 flex justify-center">
-          <button className="p-3 rounded-sm bg-blue-500 hover:bg-blue-600 text-white">
-            Load More
-          </button>
-        </div>
+        {data?.next_page_url !== null && (
+          <div className="my-5 flex justify-center">
+            <button
+              onClick={handleLoadMore}
+              className="p-3 rounded-sm bg-blue-500 hover:bg-blue-600 text-white"
+            >
+              Load More
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,62 +1,15 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
-import {
-  ArrowPathIcon,
-  Bars3Icon,
-  ChartPieIcon,
-  CursorArrowRaysIcon,
-  FingerPrintIcon,
-  SquaresPlusIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
-import {
-  ChevronDownIcon,
-  PhoneIcon,
-  PlayCircleIcon,
-} from "@heroicons/react/20/solid";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import useSWR from "swr";
-
-const categories = [
-  {
-    name: "Analytics",
-    description: "Get a better understanding of your traffic",
-    href: "#",
-    icon: ChartPieIcon,
-  },
-  {
-    name: "Engagement",
-    description: "Speak directly to your customers",
-    href: "#",
-    icon: CursorArrowRaysIcon,
-  },
-  {
-    name: "Security",
-    description: "Your customers’ data will be safe and secure",
-    href: "#",
-    icon: FingerPrintIcon,
-  },
-  {
-    name: "Integrations",
-    description: "Connect with third-party tools",
-    href: "#",
-    icon: SquaresPlusIcon,
-  },
-  {
-    name: "Automations",
-    description: "Build strategic funnels that will convert",
-    href: "#",
-    icon: ArrowPathIcon,
-  },
-];
-const callsToAction = [
-  { name: "Watch demo", href: "#", icon: PlayCircleIcon },
-  { name: "Contact sales", href: "#", icon: PhoneIcon },
-];
+import { useLocation } from "react-router-dom";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 import fetcher from "../utils/swr/fetcher.js";
+import { Link } from "react-router-dom";
 export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -68,6 +21,12 @@ export default function Example() {
     }
   );
 
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
   return (
     <header className="bg-white sticky top-0 shadow z-10 ">
       <nav
@@ -75,10 +34,10 @@ export default function Example() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1 gap-2">
-          <a href="#" className="-m-1.5 p-1.5">
+          <Link to={"/"} className="-m-1.5 p-1.5">
             <span className="sr-only">PERPUS</span>
             <img className="h-8 w-auto" src="/logo.png" alt="" />
-          </a>
+          </Link>
           <span className="font-bold">PERPUS</span>
         </div>
         <div className="flex lg:hidden">
@@ -93,9 +52,12 @@ export default function Example() {
         </div>
 
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <Link
+            to={"/"}
+            className="text-sm font-semibold leading-6 text-gray-900"
+          >
             Home
-          </a>
+          </Link>
           <Popover className="relative">
             <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
               Category
@@ -122,13 +84,13 @@ export default function Example() {
                       className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
                     >
                       <div className="flex-auto">
-                        <a
-                          href={`/category/${item.slug}`}
+                        <Link
+                          to={`/category/${item.slug}`}
                           className="block font-semibold text-gray-900"
                         >
                           {item.name}
                           <span className="absolute inset-0" />
-                        </a>
+                        </Link>
                         <p className="mt-1 text-gray-600">{item.description}</p>
                       </div>
                     </div>
@@ -138,15 +100,24 @@ export default function Example() {
             </Transition>
           </Popover>
 
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <Link
+            to={"/about"}
+            className="text-sm font-semibold leading-6 text-gray-900"
+          >
             About
-          </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          </Link>
+          <Link
+            to={"/visitor"}
+            className="text-sm font-semibold leading-6 text-gray-900"
+          >
             Visitor
-          </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          </Link>
+          <Link
+            to={"/contact"}
+            className="text-sm font-semibold leading-6 text-gray-900"
+          >
             Contact
-          </a>
+          </Link>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <a
@@ -167,10 +138,10 @@ export default function Example() {
         <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
             <div className="flex gap-2">
-              <a href="#" className="-m-1.5 p-1.5">
+              <Link to={"/"} className="-m-1.5 p-1.5">
                 <span className="sr-only">PERPUS</span>
                 <img className="h-8 w-auto" src="/logo.png" alt="" />
-              </a>
+              </Link>
               <span className="font-bold">PERPUS</span>
             </div>
             <button
@@ -185,12 +156,12 @@ export default function Example() {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
-                <a
-                  href="#"
+                <Link
+                  to={"/"}
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Home
-                </a>
+                </Link>
                 <Disclosure as="div" className="-mx-3">
                   {({ open }) => (
                     <>
@@ -208,35 +179,37 @@ export default function Example() {
                         {data?.map((item) => (
                           <Disclosure.Button
                             key={item.slug}
-                            as="a"
-                            href={`/category/${item.slug}`}
+                            as="button"
                             className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                           >
-                            {item.name}
+                            <Link to={`/category/${item.slug}`}>
+                              {" "}
+                              {item.name}
+                            </Link>
                           </Disclosure.Button>
                         ))}
                       </Disclosure.Panel>
                     </>
                   )}
                 </Disclosure>
-                <a
-                  href="#"
+                <Link
+                  ti="/about"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   About
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link
+                  to="/visitor"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  <a
-                    href="#"
-                    className="text-sm font-semibold leading-6 text-gray-900"
-                  >
-                    Visitor
-                  </a>
+                  Visitor
+                </Link>
+                <Link
+                  to="/contact"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >
                   Contact
-                </a>
+                </Link>
               </div>
               <div className="py-6">
                 <a

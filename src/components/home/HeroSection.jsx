@@ -1,4 +1,13 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 export default function HeroSection() {
+  const [keyword, setKeyword] = useState("");
+  const navigate = useNavigate();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    navigate(`/search/${keyword}`);
+  };
   return (
     <div className="bg-white">
       <div className="relative isolate px-6 pt-14 lg:px-8">
@@ -29,10 +38,14 @@ export default function HeroSection() {
               deleniti exercitationem minima quia soluta cupiditate,
             </p>
             <div className="mt-6 flex items-center justify-center gap-x-6">
-              <form action="" className="w-full flex gap-1">
+              <form onSubmit={handleSubmit} className="w-full flex gap-1">
                 <div className="flex-1">
                   <input
+                    onChange={(e) => setKeyword(e.target.value)}
+                    value={keyword}
                     type="search"
+                    name="keyword"
+                    required
                     className="w-full p-2 border rounded-sm focus:outline-blue-500"
                     placeholder="Search book..."
                   />
